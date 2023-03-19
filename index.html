@@ -6,6 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.9/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.9/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.9/dist/js/uikit-icons.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -14,28 +21,57 @@
 
     <div class="container-game">
         <div class="col-1-2 wrapper-category">
-            <div class="slider">
-                <h2>Category Sofa</h2>
-                
-                <div class="slides">
-                    <div id="slide-1">
-                        <div id="mydiv">
-                            <div id="mydivheader">Click here to move</div>
-                            <p>Move</p>
-                            <p>this</p>
-                            <p>DIV</p>
-                        </div>
+            <div uk-slider>
+
+                <div class="uk-position-relative">
+            
+                    <div class="uk-slider-container">
+                        <ul class="uk-slider-items">
+                            <li>
+                                <div id="slide-1">
+                                    <div id="mydiv" class="slide-1">
+                                        <div id="mydivheader">Click here to move 1</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="slide-1">
+                                    <div id="mydiv" class="slide-1">
+                                        <div id="mydivheader">Click here to move 2</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="slide-1">
+                                    <div id="mydiv" class="slide-1">
+                                        <div id="mydivheader">Click here to move 3</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="slide-1">
+                                    <div id="mydiv" class="slide-1">
+                                        <div id="mydivheader">Click here to move 4</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="slide-1">
+                                    <div id="mydiv" class="slide-1">
+                                        <div id="mydivheader">Click here to move 5</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div id="slide-2">2</div>
-                    <div id="slide-3">3</div>
-                    <div id="slide-4">4</div>
-                    <div id="slide-5">5</div>
+            
+                    <a class="uk-position-center-left-out" href="#" uk-slider-item="previous">-></a>
+                    <a class="uk-position-center-right-out" href="#" uk-slider-item="next"><-</a>
+            
                 </div>
-                <a href="#slide-1">1</a>
-                <a href="#slide-2">2</a>
-                <a href="#slide-3">3</a>
-                <a href="#slide-4">4</a>
-                <a href="#slide-5">5</a>
+            
+                <ul class="uk-slider-nav uk-dotnav"></ul>
+            
             </div>
         </div>
         <div class="col-1-2">

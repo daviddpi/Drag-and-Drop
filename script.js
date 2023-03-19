@@ -1,4 +1,5 @@
 const moodboard = document.getElementById("moodboard")
+const sliderTranslate = document.querySelector(".uk-slider-items")
 
 let isIn = false;
 
@@ -7,7 +8,8 @@ dragElement(document.getElementById("mydiv"));
 
 
 function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  // let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  let x = 0, y = 0;
 
   if (document.getElementById(elmnt.id + "header")) {
     /* if present, the header is where you move the DIV from:*/
@@ -21,18 +23,27 @@ function dragElement(elmnt) {
     e = e || window.event;
     e.preventDefault();
 
-    
+    sliderTranslate.style.transform = "none"
+    sliderTranslate.style.willChange = "auto"
 
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    if(elmnt.style.position == "fixed"){
-      pos4 = e.clientY;
-    }else{
-      pos4 = e.clientY + window.scrollY;
+    if(elmnt.style.position == "absolute"){
+      elmnt.style.left = x + "px";
+      elmnt.style.top = y + "px";
+      elmnt.style.transform = `translate(-50%,-50%)`;
     }
+
 
     elmnt.style.position = "fixed";
     elmnt.style.pointerEvents = "none";
+  
+    // get the mouse cursor position at startup:
+    x = e.clientX;
+
+    if(window.scrollY < 1){
+      y = e.clientY;
+    }else{
+      y = e.clientY + window.scrollY;
+    }
 
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
@@ -43,14 +54,16 @@ function dragElement(elmnt) {
     e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+    x = e.clientX;
+    y = e.clientY;
 
     // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    elmnt.style.top = (y) + "px";
+    elmnt.style.left = (x) + "px";
+    elmnt.style.transform = `translate(-50%,-50%)`;
+
+    sliderTranslate.style.transform = "none"
+    sliderTranslate.style.willChange = "auto"
 
     moodboard.onmouseover = () => {
         isIn = true;
@@ -64,21 +77,29 @@ function dragElement(elmnt) {
   function closeDragElement() {
 
     if(isIn){
-      // moodboard.appendChild(elmnt)
+      moodboard.appendChild(elmnt)
       
-      elmnt.style.position = "fixed";
-      // elmnt.style.left = elmnt.offsetLeft - pos1 - moodboard.offsetWidth + "px";
-      // if(window.scrollY < 1){
-      //   let dim = document.querySelector("body").offsetHeight - window.innerHeight
-      //   elmnt.style.top = elmnt.offsetTop - pos2 - dim + "px";
-      // }
+      elmnt.style.position = "absolute";
+      if(elmnt.style.position == "absolute"){
+        elmnt.style.left = x - moodboard.offsetWidth + "px";
+        elmnt.style.transform = `translate(-90%,-60%)`;
+
+      }
+      if(window.scrollY < 1){
+        let dim = document.querySelector("body").offsetHeight - window.innerHeight
+        elmnt.style.top = y - dim + "px";
+      }
       
 
         
     }else{
         elmnt.style.position = "static";
+        elmnt.style.transform = `translate(0%,0%)`;
         elmnt.style.top = "";
         elmnt.style.left = "";
+
+        document.getElementById(elmnt.classList[0]).appendChild(elmnt)
+
     }
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
