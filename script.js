@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (window.innerWidth > 960) {
             elmnt.style.left = x - moodboard.offsetWidth + "px";
           }
-          elmnt.style.transform = `translate(-90%,-100%)`;
+          elmnt.style.transform = `translate(-101%,-103%)`;
         }
         if (window.scrollY < 1) {
           let dim =
@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (window.innerWidth > 960) {
             elmnt.style.left = x - moodboard.offsetWidth + "px";
           }
-          elmnt.style.transform = `translate(-90%,-100%)`;
+          elmnt.style.transform = `translate(-68%,-76%)`;
         }
         if (window.scrollY < 1) {
           let dim =
