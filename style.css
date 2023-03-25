@@ -1,21 +1,21 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   /* touch-action: none; */
 }
 
-body{
-  height: 100vh;
-  max-height: 100vh;
+body {
+  height: 100dvh;
+  max-height: 100dvh;
 }
 
-header{
+header {
   height: 80px;
-  background-color: #2196F3;
+  background-color: #2196f3;
   color: #fdfdfd;
   font-size: 28px;
 
@@ -24,7 +24,7 @@ header{
   justify-content: center;
 }
 
-.container-game{
+.container-game {
   height: calc(100% - 80px);
   width: 100%;
 
@@ -32,12 +32,12 @@ header{
   overflow: hidden;
 }
 
-.col-1-2{
+.col-1-2 {
   width: 50%;
   padding: 20px;
 }
 
-.wrapper-category{
+.wrapper-category {
   overflow-y: scroll;
 }
 
@@ -53,14 +53,14 @@ header{
   background: transparent;
 }
 
-#moodboard{
+#moodboard {
   height: 95%;
   margin: 5px;
   border: 2px solid black;
   position: relative;
 }
 
-#download-moodboard{
+#download-moodboard {
   height: 5%;
   margin: auto;
   width: 100%;
@@ -82,7 +82,7 @@ header{
   padding: 10px;
   cursor: move;
   z-index: 10;
-  background-color: #2196F3;
+  background-color: #2196f3;
   color: #fff;
   height: 100%;
   width: 100%;
@@ -91,7 +91,7 @@ header{
   justify-content: center;
 }
 
-.uk-slider-items li{
+.uk-slider-items li {
   min-width: 200px;
   min-height: 200px;
   margin: 0 5px 0 0;
@@ -105,28 +105,24 @@ header{
   width: 300px;
   text-align: center;
   overflow: hidden;
-
 }
 
-.sedia.mydivheader{
+.sedia.mydivheader {
   background-color: #f32121c9;
 }
 
-
-
-@media screen and (max-width: 960px){
-
-  .container-game{
+@media screen and (max-width: 960px) {
+  .container-game {
     flex-wrap: wrap;
   }
 
-  .col-1-2{
+  .col-1-2 {
     width: 100%;
     order: 0;
     height: 75%;
   }
 
-  .col-1-2.wrapper-category{
+  .col-1-2.wrapper-category {
     order: 1;
     height: 25%;
     padding: 20px;
@@ -146,14 +142,14 @@ header{
   }
 }
 
-@media screen and (max-width: 576px){
-  .col-1-2{
+@media screen and (max-width: 576px) {
+  .col-1-2 {
     width: 100%;
     order: 0;
     height: 65%;
   }
 
-  .col-1-2.wrapper-category{
+  .col-1-2.wrapper-category {
     order: 1;
     height: 35%;
     padding: 20px;

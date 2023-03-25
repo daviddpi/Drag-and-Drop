@@ -86,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       elmnt.style.position = "fixed";
       elmnt.style.pointerEvents = "none";
+      elmnt.style.transform = `translate(-50%,-50%)`;
 
       // get the mouse cursor position at startup:
       x = e.clientX;
@@ -136,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
           elmnt.style.transform = `translate(-101%,-103%)`;
         }
-        if (window.scrollY < 1) {
+        if (window.scrollY > 1) {
           let dim =
             document.querySelector("body").offsetHeight - window.innerHeight;
           elmnt.style.top = y - dim + "px";
@@ -174,11 +175,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       elmnt.style.position = "fixed";
       elmnt.style.pointerEvents = "none";
+      elmnt.style.transform = `translate(-50%,-50%)`;
 
       // get the mouse cursor position at startup:
       x = touchLocation.clientX;
 
-      if (window.scrollY < 1) {
+      if (window.scrollY > 1) {
         y = touchLocation.clientY;
       } else {
         y = touchLocation.clientY + window.scrollY;
@@ -237,9 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (window.innerWidth > 960) {
             elmnt.style.left = x - moodboard.offsetWidth + "px";
           }
-          elmnt.style.transform = `translate(-68%,-76%)`;
+          elmnt.style.transform = `translate(-68%,-103%)`;
         }
-        if (window.scrollY < 1) {
+        if (window.scrollY > 1) {
           let dim =
             document.querySelector("body").offsetHeight - window.innerHeight;
           elmnt.style.top = y - dim + "px";
@@ -268,7 +270,7 @@ donwloadLink.onclick = function () {
   downloadable = true;
 
   function download(canvas, filename) {
-    const data = canvas.toDataURL("image/png;base128");
+    const data = canvas.toDataURL("image/png;base64");
     donwloadLink.download = filename;
     donwloadLink.href = data;
   }
