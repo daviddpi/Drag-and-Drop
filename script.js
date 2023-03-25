@@ -1,110 +1,202 @@
-const moodboard = document.getElementById("moodboard")
-const sliderTranslate = document.querySelector(".uk-slider-items")
-
+const moodboard = document.getElementById("moodboard");
+// const sliderTranslate = document.querySelector(".uk-slider-items")
+let dragItem = document.querySelectorAll(".drag-item");
 let isIn = false;
+let indexGrid = 9;
+let sliderTranslate = null;
 
-//Make the DIV element draggagle:
-dragElement(document.getElementById("mydiv"));
-
-
-function dragElement(elmnt) {
-  // let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let x = 0, y = 0;
-
-  if (document.getElementById(elmnt.id + "header")) {
-    /* if present, the header is where you move the DIV from:*/
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
-    elmnt.onmousedown = dragMouseDown;
+document.addEventListener("DOMContentLoaded", () => {
+  for (let item of dragItem) {
+    dragElement(item);
   }
 
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
+  function dragElement(elmnt) {
+    // let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let x = 0,
+      y = 0;
 
-    sliderTranslate.style.transform = "none"
-    sliderTranslate.style.willChange = "auto"
-
-    if(elmnt.style.position == "absolute"){
-      elmnt.style.left = x + "px";
-      elmnt.style.top = y + "px";
-      elmnt.style.transform = `translate(-50%,-50%)`;
+    if (elmnt) {
+      /* if present, the header is where you move the DIV from:*/
+      elmnt.onmousedown = dragMouseDown;
+      elmnt.ontouchstart = touchstart;
     }
 
+    function dragMouseDown(e) {
+      e = e || window.event;
+      e.preventDefault();
 
-    elmnt.style.position = "fixed";
-    elmnt.style.pointerEvents = "none";
-  
-    // get the mouse cursor position at startup:
-    x = e.clientX;
+      sliderTranslate = elmnt.parentElement.parentElement.parentElement;
 
-    if(window.scrollY < 1){
+      elmnt.style.zIndex = ++indexGrid;
+
+      sliderTranslate.style.transform = "none";
+      sliderTranslate.style.willChange = "auto";
+
+      if (elmnt.style.position == "absolute") {
+        elmnt.style.left = x + "px";
+        elmnt.style.top = y + "px";
+        elmnt.style.transform = `translate(-50%,-50%)`;
+      }
+
+      elmnt.style.position = "fixed";
+      elmnt.style.pointerEvents = "none";
+
+      // get the mouse cursor position at startup:
+      x = e.clientX;
+
+      if (window.scrollY < 1) {
+        y = e.clientY;
+      } else {
+        y = e.clientY + window.scrollY;
+      }
+
+      document.onmouseup = closeDragElement;
+      // call a function whenever the cursor moves:
+      document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+      e = e || window.event;
+      e.preventDefault();
+      // calculate the new cursor position:
+      x = e.clientX;
       y = e.clientY;
-    }else{
-      y = e.clientY + window.scrollY;
+
+      // set the element's new position:
+      elmnt.style.top = y + "px";
+      elmnt.style.left = x + "px";
+      elmnt.style.transform = `translate(-50%,-50%)`;
+
+      sliderTranslate.style.transform = "none";
+      sliderTranslate.style.willChange = "auto";
+
+      moodboard.onmouseover = () => {
+        isIn = true;
+      };
+      moodboard.onmouseout = () => {
+        isIn = false;
+      };
     }
 
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
+    function closeDragElement() {
+      if (isIn) {
+        moodboard.appendChild(elmnt);
+        elmnt.style.zIndex = indexGrid;
 
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    x = e.clientX;
-    y = e.clientY;
-
-    // set the element's new position:
-    elmnt.style.top = (y) + "px";
-    elmnt.style.left = (x) + "px";
-    elmnt.style.transform = `translate(-50%,-50%)`;
-
-    sliderTranslate.style.transform = "none"
-    sliderTranslate.style.willChange = "auto"
-
-    moodboard.onmouseover = () => {
-        isIn = true;
-    };
-    moodboard.onmouseout = () => {
-        isIn = false;
-    };
-
-  }
-
-  function closeDragElement() {
-
-    if(isIn){
-      moodboard.appendChild(elmnt)
-      
-      elmnt.style.position = "absolute";
-      if(elmnt.style.position == "absolute"){
-        elmnt.style.left = x - moodboard.offsetWidth + "px";
-        elmnt.style.transform = `translate(-90%,-60%)`;
-
-      }
-      if(window.scrollY < 1){
-        let dim = document.querySelector("body").offsetHeight - window.innerHeight
-        elmnt.style.top = y - dim + "px";
-      }
-      
-
-        
-    }else{
+        elmnt.style.position = "absolute";
+        if (elmnt.style.position == "absolute") {
+          if (window.innerWidth > 960) {
+            elmnt.style.left = x - moodboard.offsetWidth + "px";
+          }
+          elmnt.style.transform = `translate(-90%,-100%)`;
+        }
+        if (window.scrollY < 1) {
+          let dim =
+            document.querySelector("body").offsetHeight - window.innerHeight;
+          elmnt.style.top = y - dim + "px";
+        }
+      } else {
         elmnt.style.position = "static";
         elmnt.style.transform = `translate(0%,0%)`;
         elmnt.style.top = "";
         elmnt.style.left = "";
 
-        document.getElementById(elmnt.classList[0]).appendChild(elmnt)
+        document.getElementById(elmnt.classList[0]).appendChild(elmnt);
+      }
+      /* stop moving when mouse button is released:*/
+      document.onmouseup = null;
+      document.onmousemove = null;
+      elmnt.style.pointerEvents = "auto";
+    }
+
+    /* mobile */
+    function touchstart(e) {
+      let touchLocation = e.targetTouches[0];
+
+      pos3 = touchLocation.clientX;
+      pos4 = touchLocation.clientY;
+      elmnt.style.zIndex = ++indexGrid;
+      elmnt.ontouchend = mobileEnd;
+      elmnt.ontouchmove = mobileDrag;
+    }
+
+    function mobileDrag(e) {
+      let touchLocation = e.targetTouches[0];
+
+      x = touchLocation.clientX;
+      y = touchLocation.clientY;
+
+      // set the element's new position:
+      elmnt.style.top = y + "px";
+      elmnt.style.left = x + "px";
+      elmnt.style.transform = `translate(-50%,-50%)`;
+
+      sliderTranslate.style.transform = "none";
+      sliderTranslate.style.willChange = "auto";
+
+      moodboard.onmouseover = () => {
+        isIn = true;
+      };
+      moodboard.onmouseout = () => {
+        isIn = false;
+      };
+    }
+
+    function mobileEnd() {
+      if (isIn) {
+        moodboard.appendChild(elmnt);
+        elmnt.style.zIndex = indexGrid;
+
+        elmnt.style.position = "absolute";
+        if (elmnt.style.position == "absolute") {
+          if (window.innerWidth > 960) {
+            elmnt.style.left = x - moodboard.offsetWidth + "px";
+          }
+          elmnt.style.transform = `translate(-90%,-100%)`;
+        }
+        if (window.scrollY < 1) {
+          let dim =
+            document.querySelector("body").offsetHeight - window.innerHeight;
+          elmnt.style.top = y - dim + "px";
+        }
+      } else {
+        elmnt.style.position = "static";
+        elmnt.style.transform = `translate(0%,0%)`;
+        elmnt.style.top = "";
+        elmnt.style.left = "";
+
+        document.getElementById(elmnt.classList[0]).appendChild(elmnt);
+      }
+      /* stop moving when mouse button is released:*/
+      elmnt.style.zIndex = indexGrid;
+      document.ontouchend = null;
+      document.ontouchmove = null;
+      elmnt.style.pointerEvents = "auto";
 
     }
-    /* stop moving when mouse button is released:*/
-    document.onmouseup = null;
-    document.onmousemove = null;
-    elmnt.style.pointerEvents = "auto";
+  }
+});
+
+
+const donwloadLink = document.querySelector("#download-moodboard #download");
+let downloadable = false;
+
+donwloadLink.onclick = function() {
+  downloadable = true;
+
+  function download(canvas, filename) {
+    const data = canvas.toDataURL("image/png;base128");
+    donwloadLink.download = filename;
+    donwloadLink.href = data;
     
   }
+
+  html2canvas(document.querySelector("#moodboard")).then((canvas) => {
+    // document.body.appendChild(canvas);
+    download(canvas, "Moodboard");
+    if(downloadable){
+      donwloadLink.click()
+      downloadable = false;
+    }
+  });
 }

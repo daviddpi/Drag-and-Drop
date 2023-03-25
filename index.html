@@ -13,6 +13,10 @@
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.9/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.9/dist/js/uikit-icons.min.js"></script>
+
+    <!-- Canvas -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
     <title>Document</title>
 </head>
 
@@ -21,7 +25,7 @@
 
     <div class="container-game">
         <div class="col-1-2 wrapper-category">
-            <div uk-slider>
+            <div uk-slider class="divano-category">
 
                 <div class="uk-position-relative">
             
@@ -29,36 +33,88 @@
                         <ul class="uk-slider-items">
                             <li>
                                 <div id="slide-1">
-                                    <div id="mydiv" class="slide-1">
-                                        <div id="mydivheader">Click here to move 1</div>
+                                    <div id="mydiv" class="slide-1 drag-item">
+                                        <div class="mydivheader">Click here to move 1</div>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <div id="slide-1">
-                                    <div id="mydiv" class="slide-1">
-                                        <div id="mydivheader">Click here to move 2</div>
+                                <div id="slide-2">
+                                    <div id="mydiv" class="slide-2 drag-item">
+                                        <div class="mydivheader">Click here to move 2</div>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <div id="slide-1">
-                                    <div id="mydiv" class="slide-1">
-                                        <div id="mydivheader">Click here to move 3</div>
+                                <div id="slide-3">
+                                    <div id="mydiv" class="slide-3 drag-item">
+                                        <div class="mydivheader">Click here to move 3</div>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <div id="slide-1">
-                                    <div id="mydiv" class="slide-1">
-                                        <div id="mydivheader">Click here to move 4</div>
+                                <div id="slide-4">
+                                    <div id="mydiv" class="slide-4 drag-item">
+                                        <div class="mydivheader">Click here to move 4</div>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <div id="slide-1">
-                                    <div id="mydiv" class="slide-1">
-                                        <div id="mydivheader">Click here to move 5</div>
+                                <div id="slide-5">
+                                    <div id="mydiv" class="slide-5 drag-item">
+                                        <div class="mydivheader">Click here to move 5</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+            
+                    <a class="uk-position-center-left-out" href="#" uk-slider-item="previous">-></a>
+                    <a class="uk-position-center-right-out" href="#" uk-slider-item="next"><-</a>
+            
+                </div>
+            
+                <ul class="uk-slider-nav uk-dotnav"></ul>
+            
+            </div>
+            <div uk-slider class="sedia-category">
+
+                <div class="uk-position-relative">
+            
+                    <div class="uk-slider-container">
+                        <ul class="uk-slider-items">
+                            <li>
+                                <div id="sedia-1">
+                                    <div id="mydiv" class="sedia-1 drag-item">
+                                        <div class="mydivheader sedia">Click here to move 1</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="sedia-2">
+                                    <div id="mydiv" class="sedia-2 drag-item">
+                                        <div class="mydivheader sedia">Click here to move 2</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="sedia-3">
+                                    <div id="mydiv" class="sedia-3 drag-item">
+                                        <div class="mydivheader sedia">Click here to move 3</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="sedia-4">
+                                    <div id="mydiv" class="sedia-4 drag-item">
+                                        <div class="mydivheader sedia">Click here to move 4</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div id="sedia-5">
+                                    <div id="mydiv" class="sedia-5 drag-item">
+                                        <div class="mydivheader sedia">Click here to move 5</div>
                                     </div>
                                 </div>
                             </li>
@@ -78,10 +134,11 @@
             <div id="moodboard">
                 
             </div>
+            <div id="download-moodboard">
+                <a id="download" href="#">Download</a>
+            </div>
         </div>
     </div>
-
-
 
     <script src="script.js"></script>
 </body>
