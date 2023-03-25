@@ -4,6 +4,8 @@
   box-sizing: border-box;
 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* touch-action: none; */
 }
 
 body{
@@ -133,6 +135,34 @@ header{
 
   .wrapper-category::-webkit-scrollbar {
     width: 15px;
+    height: 5px;
+  }
+  .wrapper-category::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 5px;
+  }
+  .wrapper-category::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media screen and (max-width: 576px){
+  .col-1-2{
+    width: 100%;
+    order: 0;
+    height: 65%;
+  }
+
+  .col-1-2.wrapper-category{
+    order: 1;
+    height: 35%;
+    padding: 20px;
+    padding-right: 45px;
+    width: 95%;
+  }
+
+  .wrapper-category::-webkit-scrollbar {
+    width: 20px;
     height: 5px;
   }
   .wrapper-category::-webkit-scrollbar-thumb {

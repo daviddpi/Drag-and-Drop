@@ -1,9 +1,55 @@
 const moodboard = document.getElementById("moodboard");
-// const sliderTranslate = document.querySelector(".uk-slider-items")
 let dragItem = document.querySelectorAll(".drag-item");
 let isIn = false;
 let indexGrid = 9;
 let sliderTranslate = null;
+
+var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+function preventDefault(e) {
+  e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e) {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+
+// modern Chrome requires { passive: false } when adding event
+var supportsPassive = false;
+try {
+  window.addEventListener(
+    "test",
+    null,
+    Object.defineProperty({}, "passive", {
+      get: function () {
+        supportsPassive = true;
+      },
+    })
+  );
+} catch (e) {}
+
+var wheelOpt = supportsPassive ? { passive: false } : false;
+var wheelEvent =
+  "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
+
+// call this to Disable
+function disableScroll() {
+  window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
+  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+  window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
+  window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+}
+
+// call this to Enable
+function enableScroll() {
+  window.removeEventListener("DOMMouseScroll", preventDefault, false);
+  window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+  window.removeEventListener("touchmove", preventDefault, wheelOpt);
+  window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   for (let item of dragItem) {
@@ -113,15 +159,40 @@ document.addEventListener("DOMContentLoaded", () => {
     function touchstart(e) {
       let touchLocation = e.targetTouches[0];
 
-      pos3 = touchLocation.clientX;
-      pos4 = touchLocation.clientY;
+      sliderTranslate = elmnt.parentElement.parentElement.parentElement;
+
       elmnt.style.zIndex = ++indexGrid;
+
+      sliderTranslate.style.transform = "none";
+      sliderTranslate.style.willChange = "auto";
+
+      if (elmnt.style.position == "absolute") {
+        elmnt.style.left = x + "px";
+        elmnt.style.top = y + "px";
+        elmnt.style.transform = `translate(-50%,-50%)`;
+      }
+
+      elmnt.style.position = "fixed";
+      elmnt.style.pointerEvents = "none";
+
+      // get the mouse cursor position at startup:
+      x = touchLocation.clientX;
+
+      if (window.scrollY < 1) {
+        y = touchLocation.clientY;
+      } else {
+        y = touchLocation.clientY + window.scrollY;
+      }
+
       elmnt.ontouchend = mobileEnd;
       elmnt.ontouchmove = mobileDrag;
     }
 
     function mobileDrag(e) {
+      disableScroll();
+
       let touchLocation = e.targetTouches[0];
+      sliderTranslate = elmnt.parentElement.parentElement.parentElement;
 
       x = touchLocation.clientX;
       y = touchLocation.clientY;
@@ -140,9 +211,23 @@ document.addEventListener("DOMContentLoaded", () => {
       moodboard.onmouseout = () => {
         isIn = false;
       };
+
     }
 
     function mobileEnd() {
+      enableScroll();
+      let topMoodboard = moodboard.getBoundingClientRect().top
+      let bottomMoodboard = moodboard.getBoundingClientRect().bottom
+      let leftMoodboard = moodboard.getBoundingClientRect().left
+      let rightMoodboard = moodboard.getBoundingClientRect().right
+
+      if( (y > topMoodboard && y < bottomMoodboard) && (x > leftMoodboard && x < rightMoodboard) ){
+        isIn = true;
+      }else{
+        isIn = false;
+      }
+
+
       if (isIn) {
         moodboard.appendChild(elmnt);
         elmnt.style.zIndex = indexGrid;
@@ -172,31 +257,28 @@ document.addEventListener("DOMContentLoaded", () => {
       document.ontouchend = null;
       document.ontouchmove = null;
       elmnt.style.pointerEvents = "auto";
-
     }
   }
 });
 
-
 const donwloadLink = document.querySelector("#download-moodboard #download");
 let downloadable = false;
 
-donwloadLink.onclick = function() {
+donwloadLink.onclick = function () {
   downloadable = true;
 
   function download(canvas, filename) {
     const data = canvas.toDataURL("image/png;base128");
     donwloadLink.download = filename;
     donwloadLink.href = data;
-    
   }
 
   html2canvas(document.querySelector("#moodboard")).then((canvas) => {
     // document.body.appendChild(canvas);
     download(canvas, "Moodboard");
-    if(downloadable){
-      donwloadLink.click()
+    if (downloadable) {
+      donwloadLink.click();
       downloadable = false;
     }
   });
-}
+};
